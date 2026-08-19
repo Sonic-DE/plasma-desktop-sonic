@@ -33,6 +33,7 @@ ColumnLayout {
     required property bool isOnAllVirtualDesktops
     required property /*list<var>*/ var virtualDesktops // Can't use list<var> because of QTBUG-127600
     required property list<string> activities
+    required property bool isReadyForPainting
 
     property bool hasTrackInATitle: false
     property int orientation: ListView.Vertical // vertical for compact single-window tooltips
@@ -317,7 +318,7 @@ ColumnLayout {
             active: Plasmoid.configuration.showToolTips
                 && !toolTipDelegate.isLauncher
                 && !albumArtImage.visible
-                && false
+                && toolTipDelegate.isReadyForPainting
                 && root.index !== -1
             asynchronous: true
             //In a loader since we might not have PipeWire available yet (WITH_PIPEWIRE could be undefined in plasma-workspace/libtaskmanager/declarative/taskmanagerplugin.cpp)
