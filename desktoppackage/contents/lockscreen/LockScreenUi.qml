@@ -8,7 +8,7 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.plasma.workspace.components as PW
@@ -201,16 +201,18 @@ Item {
             alwaysShowClock: config.alwaysShowClock && !config.hideClockWhenIdle
         }
 
-        DropShadow {
+        MultiEffect {
             id: clockShadow
             anchors.fill: clock
             source: clock
             visible: !lockScreenUi.softwareRendering && config.alwaysShowClock
-            radius: 7
-            verticalOffset: 0.8
-            samples: 15
-            spread: 0.2
-            color : Qt.rgba(0, 0, 0, 0.7)
+            shadowEnabled: true
+            shadowHorizontalOffset: 0
+            shadowVerticalOffset: 0.8
+            shadowColor: Qt.rgba(0, 0, 0, 0.7)
+            shadowBlur: 1
+            blurMax: 7
+            shadowScale: 1
             opacity: lockScreenRoot.uiVisible ? 0 : 1
             Behavior on opacity {
                 OpacityAnimator {

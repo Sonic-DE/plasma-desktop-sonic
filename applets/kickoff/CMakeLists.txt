@@ -36,7 +36,15 @@ QML_SOURCES
 
  CPP_SOURCES
      ${CMAKE_SOURCE_DIR}/messagelogger.cpp
+     liddetector.h
+     liddetector.cpp
  )
+
+target_link_libraries(org.kde.plasma.kickoff PRIVATE Qt::DBus)
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
 
 set_source_files_properties(code/tools.js PROPERTIES QT_QML_SKIP_QMLDIR_ENTRY TRUE)
 ecm_target_qml_sources(org.kde.plasma.kickoff SOURCES code/tools.js PATH code)

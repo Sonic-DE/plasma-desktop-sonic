@@ -7,7 +7,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Window
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
@@ -424,18 +424,18 @@ Item {
                 Component {
                     id: iconShadowComponent
 
-                    DropShadow {
+                    MultiEffect {
                         anchors.fill: icon
 
                         z: 1
 
-                        verticalOffset: 1
-
-                        radius: 5.0
-                        samples: radius * 2 + 1
-                        spread: 0.05
-
-                        color: "black"
+                        shadowEnabled: true
+                        shadowHorizontalOffset: 0
+                        shadowVerticalOffset: 1
+                        shadowColor: "black"
+                        shadowBlur: 1
+                        blurMax: 5
+                        shadowScale: 1
 
                         opacity: main.isHidden ? 0.3 : 0.6
 

@@ -8,7 +8,6 @@ pragma Singleton // NOTE: Singletons are shared between all instances of a plasm
 import QtQuick
 import org.kde.kirigami as Kirigami
 import org.kde.ksvg as KSvg
-import org.kde.plasma.plasma5support as P5Support
 import org.kde.plasma.components as PC3
 
 // Using Item because it has a default property.
@@ -19,16 +18,7 @@ Item {
     visible: false
 
     //BEGIN Models and Data Sources
-    readonly property P5Support.DataSource powerManagement: P5Support.DataSource {
-        engine: "powermanagement"
-        connectedSources: ["PowerDevil"]
-        // For some reason, these signal handlers need to be here for `data` to actually contain data.
-        onSourceAdded: source => {
-            disconnectSource(source);
-            connectSource(source);
-        }
-        onSourceRemoved: source => disconnectSource(source);
-    }
+    readonly property LidDetector lidDetector: LidDetector {}
     //END
 
     //BEGIN Reusable Objects

@@ -22,7 +22,7 @@ BasePage {
             id: delegate
             url: ""
             description: ""
-            width: view.availableWidth
+            width: view.availableWidth // qmllint disable missing-property
             isCategoryListItem: true
             isMultilineText: false
             background: PlasmaExtras.Highlight {
@@ -40,10 +40,12 @@ BasePage {
         mainContentView: true
         focus: true
         objectName: "frequentlyUsedView"
-        model: switch (root.sideBarItem.currentIndex) {
-            case 0: return kickoff.computerModel
-            case 1: return kickoff.recentUsageModel
-            case 2: return kickoff.frequentUsageModel
+        // kickoff is the root PlasmoidItem id supplied by the instantiation
+        // context in main.qml; it is not statically visible here.
+        model: switch (root.sideBarItem.currentIndex) { // qmllint disable missing-property
+            case 0: return kickoff.computerModel // qmllint disable unqualified
+            case 1: return kickoff.recentUsageModel // qmllint disable unqualified
+            case 2: return kickoff.frequentUsageModel // qmllint disable unqualified
         }
         onActiveFocusChanged: if (activeFocus && count < 1) {
             (root.sideBarItem as Item).forceActiveFocus()
@@ -56,29 +58,40 @@ BasePage {
         ListElement { display: "Computer"; decoration: "computer" }
         ListElement { display: "History"; decoration: "view-history" }
         ListElement { display: "Frequently Used"; decoration: "clock" }
+        function updateComputerDecoration() {
+            if (KickoffSingleton.lidDetector.lidPresent) {
+                placesCategoryModel.setProperty(0, "decoration", "computer-laptop")
+            } else {
+                placesCategoryModel.setProperty(0, "decoration", "computer")
+            }
+        }
         Component.onCompleted: {
             // Can't use a function in a QML ListElement declaration
             placesCategoryModel.setProperty(0, "display", i18nc("category in Places sidebar", "Computer"))
             placesCategoryModel.setProperty(1, "display", i18nc("category in Places sidebar", "History"))
             placesCategoryModel.setProperty(2, "display", i18nc("category in Places sidebar", "Frequently Used"))
-            if (KickoffSingleton.powerManagement.data["PowerDevil"]
-                && KickoffSingleton.powerManagement.data["PowerDevil"]["Is Lid Present"]) {
-                placesCategoryModel.setProperty(0, "decoration", "computer-laptop")
-            }
+            updateComputerDecoration()
+        }
+    }
+
+    Connections {
+        target: KickoffSingleton.lidDetector
+        function onLidPresentChanged() {
+            placesCategoryModel.updateComputerDecoration()
         }
     }
     // NormalPage doesn't get destroyed when deactivated, so the binding uses
     // StackView.status and visible. This way the bindings are reset when
     // NormalPage is Activated again.
     Binding {
-        target: kickoff
+        target: kickoff // qmllint disable unqualified
         property: "sideBar"
         value: root.sideBarItem
         when: root.T.StackView.status === T.StackView.Active && root.visible
         restoreMode: Binding.RestoreBinding
     }
     Binding {
-        target: kickoff
+        target: kickoff // qmllint disable unqualified
         property: "contentArea"
         value: root.contentAreaItem // NOT root.contentAreaItem.currentItem
         when: root.T.StackView.status === T.StackView.Active && root.visible
