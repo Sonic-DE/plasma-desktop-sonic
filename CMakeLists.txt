@@ -58,7 +58,6 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Widgets
     Svg
     Concurrent
-    Core5Compat
     ShaderTools
     Sql # kcms/activities
 )
@@ -95,7 +94,6 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Svg
 )
 
-find_package(Plasma5Support ${PROJECT_DEP_VERSION} REQUIRED)
 find_package(Plasma ${PROJECT_DEP_VERSION} REQUIRED)
 find_package(PlasmaQuick ${PROJECT_DEP_VERSION} REQUIRED)
 find_package(PlasmaActivities ${PROJECT_DEP_VERSION} REQUIRED)
